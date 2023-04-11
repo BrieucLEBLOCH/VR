@@ -1,0 +1,161 @@
+{
+    "name": "controls",
+    "maps": [
+        {
+            "name": "Move",
+            "id": "e67ee9eb-75c5-44f9-8307-89bd1730814f",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "246f573f-34bf-4e3b-b661-f7141ad3cf4f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "ZQSD",
+                    "id": "06aa6cab-bb7e-482b-af8b-cc41345bb681",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "6c6d45fa-ad2d-4e62-ab8b-945e0ae051fd",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "25e24e89-aab0-4a04-aaa0-619886026169",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "6f07ce1e-fd4a-40df-8732-5d84982b2475",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "f940b580-5a1e-454e-95ff-10261eb38a3b",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "ce825cbc-ec3f-4c8d-b696-7598e358e848",
+                    "path": "<XRController>{LeftHand}/joystick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Camera",
+            "id": "51013666-6bb2-4f37-9c4d-1d431f36ae8c",
+            "actions": [
+                {
+                    "name": "Camera",
+                    "type": "Value",
+                    "id": "ce3841e9-06af-48aa-b672-8a71b066ffa2",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bcf9c7b1-c30e-441e-a7c9-24856b7d4141",
+                    "path": "<XRController>{RightHand}/joystick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Grab",
+            "id": "71af51ec-1434-4f87-b544-fdf3c4f1b6f1",
+            "actions": [
+                {
+                    "name": "GrabRight",
+                    "type": "Button",
+                    "id": "bb3857ea-5a96-4e33-a6e1-471545ffd049",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "GrabLeft",
+                    "type": "Button",
+                    "id": "521edcb9-72ab-4ebc-bedd-c1cc4a335c80",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "070224c1-d6d1-4dee-84bb-79e95b976e71",
+                    "path": "<XRController>{RightHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GrabRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5666faa3-6ddb-40b0-ba50-8961b4b258e2",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GrabLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
