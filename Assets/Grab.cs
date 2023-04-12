@@ -14,9 +14,14 @@ public class Grab : MonoBehaviour
     private Interactables currentInteractable = null; // l'objet actuellement saisi
     private Vector3 grabOffset = Vector3.zero; // l'offset de position entre la position de l'objet et la position du contrôleur VR lors de la saisie
 
+    Vector3 lastPos;
+    Vector3 force;
+    Queue<Vector3> posQueue;
+
     private void Awake()
     {
         controls = new Controls();
+        posQueue = new Queue<Vector3>();
 
         controls.Grab.GrabRight.performed += GripPressedRight;
         controls.Grab.GrabRight.canceled += GripReleased;
@@ -32,7 +37,21 @@ public class Grab : MonoBehaviour
         if (currentInteractable != null)
         {
             currentInteractable.MoveTo(transform.position + grabOffset);
+            currentInteractable.transform.rotation= transform.rotation;
         }
+
+        if (posQueue.Count < 10)
+        {
+            posQueue.Enqueue(transform.position);
+        }
+        else
+        {
+            posQueue.Dequeue();
+            posQueue.Enqueue(transform.position);
+        }
+
+        force = posQueue.Peek() - transform.position;
+
     }
 
     private void GripPressedRight(InputAction.CallbackContext context)
@@ -78,7 +97,8 @@ public class Grab : MonoBehaviour
         // Si un objet est actuellement saisi, le relâche
         if (currentInteractable != null)
         {
-            currentInteractable.Release();
+            currentInteractable.Release(-(force / Time.deltaTime));
+            force = Vector3.zero;
             currentInteractable = null;
         }
     }

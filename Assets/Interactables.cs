@@ -12,21 +12,21 @@ public class Interactables : MonoBehaviour
     public bool isGrabbed = false; // indique si l'objet est actuellement saisi
 
     [SerializeField] float forceMult;
-    Vector3 lastPos;
-    Vector3 force;
-    private float timer;
+    //Vector3 lastPos;
+    //Vector3 force;
 
     private void Start()
     {
         // Récupère la référence au composant Rigidbody attaché à l'objet
         rb = GetComponent<Rigidbody>();
-        lastPos = transform.position;
+        //rb.velocity= new Vector3(1,1,1);
+        //lastPos = transform.position;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        force = transform.position - lastPos;
-        lastPos = transform.position;
+        //force = transform.position - lastPos;
+        //lastPos = transform.position;
     }
 
     // Fonction appelée lorsqu'un contrôleur VR saisit l'objet
@@ -35,17 +35,19 @@ public class Interactables : MonoBehaviour
         isGrabbed = true;
 
         // Désactive la physique de l'objet pour éviter les problèmes de collision lors du déplacement
+        //rb.velocity = Vector3.zero;
         rb.isKinematic = true;
     }
 
     // Fonction appelée lorsqu'un contrôleur VR relâche l'objet
-    public void Release()
+    public void Release(Vector3 force)
     {
         isGrabbed = false;
 
         // Réactive la physique de l'objet pour qu'il puisse interagir à nouveau avec les autres objets de la scène
         rb.isKinematic = false;
-        rb.AddForce(force * forceMult);
+        //rb.velocity = new Vector3(1, 1, 1);
+        rb.AddForce(force * forceMult, ForceMode.VelocityChange);
     }
 
     // Fonction appelée pour déplacer l'objet vers une position donnée (la position du contrôleur VR)
