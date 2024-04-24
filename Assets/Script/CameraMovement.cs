@@ -14,7 +14,6 @@ public class CameraMovement : MonoBehaviour
     Vector3 moveVector;
     [SerializeField] float speed = 2f;
 
-    // Start is called before the first frame update
     private void Start()
     {
         var gameplayActionMap = playerControls.FindActionMap("Camera");
@@ -28,10 +27,8 @@ public class CameraMovement : MonoBehaviour
         character = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        //character.Move(moveVector * speed * Time.fixedDeltaTime);
         character.transform.Rotate(moveVector, speed);
     }
 

@@ -1,22 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.ARSubsystems;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public class Grab : MonoBehaviour
 {
     Controls controls;
-    [SerializeField] float grabDistanceRight = 0.2f; // distance maximale de saisie de l'objet
-    [SerializeField] float grabRayDistanceLeft = 5f; // distance maximale de saisie de l'objet avec RayCast
-    public LayerMask GrabbableLayer; // masque de couche pour les objets interactifs
+    [SerializeField] float grabDistanceRight = 0.2f;
+    [SerializeField] float grabRayDistanceLeft = 5f;
+    public LayerMask GrabbableLayer;
 
-    private Interactables currentInteractable = null; // l'objet actuellement saisi
-    private Vector3 grabOffset = Vector3.zero; // l'offset de position entre la position de l'objet et la position du contrôleur VR lors de la saisie
+    private Interactables currentInteractable = null;
+    private Vector3 grabOffset = Vector3.zero;
 
-    Vector3 lastPos;
+    Vector3 OriginRotation;
     Vector3 force;
     Queue<Vector3> posQueue;
+    Quaternion rot;
 
     private void Awake()
     {
@@ -28,16 +30,25 @@ public class Grab : MonoBehaviour
         
         controls.Grab.GrabLeft.performed += GripPressedLeft;
         controls.Grab.GrabLeft.canceled += GripReleased;
+
+        rot = transform.rotation;
     }
 
     private void Update()
     {
         Vector3 vectorNull = new Vector3(0,0,0);
-        // Déplace l'objet saisi vers la position du contrôleur VR lors de la saisie
         if (currentInteractable != null)
         {
-            currentInteractable.MoveTo(transform.position + grabOffset);
-            currentInteractable.transform.rotation= transform.rotation;
+            currentInteractable.MoveTo(transform.position);
+            if (currentInteractable.tag != "Rampe") 
+            {
+                currentInteractable.transform.rotation= transform.rotation;            
+            }
+            if (currentInteractable.tag == "Rampe") 
+            {
+                currentInteractable.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+            }
+
         }
 
         if (posQueue.Count < 10)
@@ -59,14 +70,11 @@ public class Grab : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, grabDistanceRight, GrabbableLayer);
         foreach (Collider collider in hitColliders)
         {
-            // Récupère le composant "Interactable" de l'objet touché par le raycast
             Interactables interactable = collider.GetComponent<Interactables>();
 
-            // Si l'objet est interactif et n'est pas déjà saisi, le saisit
             if (interactable != null && !interactable.isGrabbed)
             {
                 currentInteractable = interactable;
-                grabOffset = currentInteractable.transform.position - transform.position;
                 currentInteractable.Grab();
             }
         }
@@ -75,14 +83,11 @@ public class Grab : MonoBehaviour
 
     private void GripPressedLeft(InputAction.CallbackContext context)
     {
-        //Effectue un raycast depuis la position du contrôleur VR dans la direction de son avant - bras
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, grabRayDistanceLeft, GrabbableLayer))
         {
-            // Récupère le composant "Interactable" de l'objet touché par le raycast
             Interactables interactable = hit.collider.GetComponent<Interactables>();
 
-            // Si l'objet est interactif et n'est pas déjà saisi, le saisit
             if (interactable != null && !interactable.isGrabbed)
             {
                 currentInteractable = interactable;
@@ -94,7 +99,6 @@ public class Grab : MonoBehaviour
 
     private void GripReleased(InputAction.CallbackContext context)
     {
-        // Si un objet est actuellement saisi, le relâche
         if (currentInteractable != null)
         {
             currentInteractable.Release(-(force / Time.deltaTime));
